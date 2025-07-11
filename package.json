@@ -1,0 +1,46 @@
+{
+  "name": "apex",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "neiforfaen",
+    "url": "https://kaiden.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neiforfaen/apex.git"
+  },
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel",
+    "format": "ultracite format",
+    "lint": "ultracite lint",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -fdx node_modules dist",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "hono": "^4.8.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6",
+    "@types/node": "^24.0.13",
+    "vercel": "^44.4.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "typescript": "^5.8.3",
+    "ultracite": "5.0.32"
+  },
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "lint-staged": {
+    "*": [
+      "biome check --no-errors-on-unmatched --files-ignore-unknown=true"
+    ],
+    "*.ts": [
+      "tsc --noEmit"
+    ]
+  }
+}
