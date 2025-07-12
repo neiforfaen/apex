@@ -10,6 +10,7 @@ import {
   redisCache,
 } from './middlewares'
 import root from './routes/root'
+import valorantRouter from './routes/valorant'
 
 export const config = {
   runtime: 'edge',
@@ -24,7 +25,7 @@ const app = new Hono<Bindings>({ strict: false })
 
 app.route('/', root)
 
-const routes: Route[] = []
+const routes: Route[] = [valorantRouter]
 
 for (const route of routes) {
   app.route('/api', route)

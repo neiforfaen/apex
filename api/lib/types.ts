@@ -6,6 +6,21 @@ export type Bindings = {
 }
 
 export type Env = {
-  VAL_API_KEY: string
+  VALORANT_API_KEY: string
   NODE_ENV: string
+}
+
+export type ValorantRankResponse = {
+  data: {
+    data: {
+      current_data: {
+        currenttierpatched: string
+        ranking_in_tier: number
+      }
+      highest_rank: {
+        patched_tier: string
+        season: string
+      }
+    }
+  }
 }
