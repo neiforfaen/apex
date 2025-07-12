@@ -4,7 +4,7 @@ import root from '../routes/root'
 import valorantRouter from '../routes/valorant'
 
 export const config = {
-  runtime: process.env.NODE_ENV === 'development' ? 'edge' : 'nodejs',
+  runtime: 'nodejs',
 }
 
 const app = createBaseRouter()
