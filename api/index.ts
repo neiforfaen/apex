@@ -1,10 +1,10 @@
 import { handle } from 'hono/vercel'
 import { createBaseRouter, type Route } from '../lib/router'
-import root from './routes/root'
-import valorantRouter from './routes/valorant'
+import root from '../routes/root'
+import valorantRouter from '../routes/valorant'
 
 export const config = {
-  runtime: 'edge',
+  runtime: process.env.NODE_ENV === 'development' ? 'edge' : 'nodejs',
 }
 
 const app = createBaseRouter()

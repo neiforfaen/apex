@@ -3,13 +3,9 @@ import type { Context } from 'hono'
 import { describeRoute } from 'hono-openapi'
 import { resolver } from 'hono-openapi/zod'
 import { z } from 'zod'
-import { createRouter } from '../../lib/router'
-import { statusCodes } from '../../lib/statix'
-import type { Bindings } from '../../lib/types'
-
-const RootResponseSchema = z.literal(
-  '@neiforfaen/apex | View the documentation at /docs'
-)
+import { createRouter } from '../lib/router'
+import { statusCodes } from '../lib/statix'
+import type { Bindings } from '../lib/types'
 
 const HealthResponseSchema = z.object({
   status: z.string(),
@@ -17,25 +13,7 @@ const HealthResponseSchema = z.object({
 
 const root = createRouter('/')
 
-root.get(
-  '/',
-  describeRoute({
-    description: 'Returns a message at the root of the API.',
-    responses: {
-      [statusCodes.OK]: {
-        description: 'Successful response',
-        content: {
-          'text/plain': { schema: resolver(RootResponseSchema) },
-        },
-      },
-    },
-    operationId: 'Root',
-    tags: ['Root'],
-  }),
-  (c) =>
-    c.text('@neiforfaen/apex | View the documentation at /docs', statusCodes.OK)
-)
-
+// GET: Health Check
 root.get(
   '/health',
   describeRoute({
@@ -54,6 +32,7 @@ root.get(
   (c) => c.json({ status: 'OK' }, statusCodes.OK)
 )
 
+// GET: API Documentation
 root.get(
   '/docs',
   Scalar((c: Context<Bindings>) => {
@@ -64,7 +43,7 @@ root.get(
       proxyUrl:
         NODE_ENV === 'development' ? 'https://proxy.scalar.com' : undefined,
       pageTitle: 'Apex API Docs | @neiforfaen/apex',
-      theme: 'moon',
+      theme: 'solarized',
     }
   })
 )
