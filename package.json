@@ -1,6 +1,7 @@
 {
   "name": "apex",
   "version": "1.0.0",
+  "description": "Easily create commands to return formatted messages for in-game ranks/records, to be used on various streaming platforms.",
   "license": "MIT",
   "author": {
     "name": "neiforfaen",
@@ -20,9 +21,14 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.7.0",
+    "@scalar/hono-api-reference": "^0.9.10",
     "@upstash/redis": "^1.35.1",
     "axios": "^1.10.0",
-    "hono": "^4.8.4"
+    "hono": "^4.8.4",
+    "hono-openapi": "^0.4.8",
+    "zod": "^4.0.5",
+    "zod-openapi": "^5.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
@@ -32,6 +38,9 @@
     "typescript": "^5.8.3",
     "ultracite": "5.0.32",
     "vercel": "^44.4.1"
+  },
+  "resolutions": {
+    "typescript": "5.8.3"
   },
   "packageManager": "pnpm@10.9.0",
   "engines": {
