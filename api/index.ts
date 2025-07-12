@@ -1,16 +1,16 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { handle } from 'hono/vercel'
-import type { Route } from './lib/router'
-import type { Bindings } from './lib/types'
+import type { Route } from '../lib/router'
+import type { Bindings } from '../lib/types'
 import {
   environment,
   errorHandler,
   notFoundHandler,
   redisCache,
-} from './middlewares'
-import root from './routes/root'
-import valorantRouter from './routes/valorant'
+} from '../middlewares'
+import root from '../routes/root'
+import valorantRouter from '../routes/valorant'
 
 export const config = {
   runtime: 'edge',
