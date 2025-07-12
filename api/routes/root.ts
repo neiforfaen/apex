@@ -3,9 +3,9 @@ import type { Context } from 'hono'
 import { describeRoute } from 'hono-openapi'
 import { resolver } from 'hono-openapi/zod'
 import { z } from 'zod'
-import { createRouter } from '../lib/router'
-import { statusCodes } from '../lib/statix'
-import type { Bindings } from '../lib/types'
+import { createRouter } from '../../lib/router'
+import { statusCodes } from '../../lib/statix'
+import type { Bindings } from '../../lib/types'
 
 const RootResponseSchema = z.literal(
   '@neiforfaen/apex | View the documentation at /docs'

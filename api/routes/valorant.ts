@@ -2,10 +2,10 @@ import get from 'axios'
 import { describeRoute } from 'hono-openapi'
 import { resolver, validator as zValidator } from 'hono-openapi/zod'
 import { z } from 'zod'
-import { setCachedValue } from '../lib/redis'
-import { createRouter } from '../lib/router'
-import { statusCodes, statusPhrases } from '../lib/statix'
-import type { ValorantRankResponse } from '../lib/types'
+import { setCachedValue } from '../../lib/redis'
+import { createRouter } from '../../lib/router'
+import { statusCodes, statusPhrases } from '../../lib/statix'
+import type { ValorantRankResponse } from '../../lib/types'
 
 const RankRequestParamSchema = z.object({
   region: z.enum(['na', 'eu', 'ap', 'kr', 'br', 'latam'], 'Region is required'),
