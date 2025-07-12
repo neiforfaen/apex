@@ -20,16 +20,17 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@upstash/redis": "^1.35.1",
     "hono": "^4.8.4"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
     "@types/node": "^24.0.13",
-    "vercel": "^44.4.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "typescript": "^5.8.3",
-    "ultracite": "5.0.32"
+    "ultracite": "5.0.32",
+    "vercel": "^44.4.1"
   },
   "packageManager": "pnpm@10.9.0",
   "engines": {
