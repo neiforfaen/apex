@@ -1,5 +1,5 @@
 import type { IRequest } from "itty-router"
-import { error, IttyRouter, json } from "itty-router"
+import { error, text, IttyRouter } from "itty-router"
 
 // Inlined as a string literal rather than imported from scripts/init.sh so the
 // script isn't bundled as a separate file when deploying to the Cloudflare Worker.
@@ -485,6 +485,7 @@ EOF
 const router = IttyRouter()
 
 router
+  .get("/", () => text("curl -fsSL https://apex.0x424.kr/init.sh | bash"))
   .get(
     "/init.sh",
     () =>
@@ -498,6 +499,6 @@ export default {
   fetch: async (request: IRequest, ...args: unknown[]) =>
     await router
       .fetch(request, ...args)
-      .then(json)
+      .then(text)
       .catch(error),
 }
