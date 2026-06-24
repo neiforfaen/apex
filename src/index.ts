@@ -485,7 +485,7 @@ EOF
 const router = IttyRouter()
 
 router
-  .get("/", () => text("curl -fsSL https://apex.0x424.kr/init.sh | bash"))
+  .get("/", () => text('bash -c "$(curl -fsSL https://apex.0x424.kr/init.sh)"'))
   .get(
     "/init.sh",
     () =>

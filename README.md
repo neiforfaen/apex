@@ -5,7 +5,7 @@ Bootstrap script for personal systems.
 ## Usage
 
 ```sh
-curl -fsSL https://apex.0x424.kr/init.sh | bash
+bash -c "$(curl -fsSL https://apex.0x424.kr/init.sh)"
 ```
 
 ## Steps
