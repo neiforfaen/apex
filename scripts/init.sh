@@ -6,6 +6,8 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
     exit 1
 fi
 
+echo "Running system setup cmd..."
+
 # Homebrew check
 if ! command -v brew &> /dev/null; then
     echo "Homebrew not found. Installing..."
@@ -25,11 +27,16 @@ if [[ ! -s "$NVM_DIR/nvm.sh" ]]; then
 fi
 source "${NVM_DIR}/nvm.sh"
 
-nvm install 24
-nvm alias default 24
+if [[ "$(nvm version default)" != "$(nvm version 24)" || "$(nvm version 24)" == "N/A" ]]; then
+    nvm install 24 > /dev/null
+    nvm alias default 24 > /dev/null
+fi
 
 # Install Wrangler CLI
-npm install -g wrangler
+if ! command -v wrangler &> /dev/null; then
+    echo "Wrangler not found. Installing..."
+    npm install -g wrangler
+fi
 
 # Claude Code install
 if ! command -v claude &> /dev/null; then
@@ -115,8 +122,25 @@ CASKS=(zed spotify discord google-chrome ghostty raycast webstorm logitech-g-hub
 FORMULAE=(ffmpeg gh git mas pnpm dockutil fzf gnupg pinentry-mac cocoapods ruby go rust python)
 MAS_APPS=(497799835) # Xcode
 
-[[ ${#FORMULAE[@]} -gt 0 ]] && brew install "${FORMULAE[@]}"
-[[ ${#CASKS[@]} -gt 0 ]] && brew install --cask "${CASKS[@]}"
+MISSING_FORMULAE=()
+for formula in "${FORMULAE[@]}"; do
+    brew list --formula "$formula" &> /dev/null || MISSING_FORMULAE+=("$formula")
+done
+if [[ ${#MISSING_FORMULAE[@]} -gt 0 ]]; then
+    for formula in "${MISSING_FORMULAE[@]}"; do
+        brew install "$formula" || echo "Skipping $formula; install failed"
+    done
+fi
+
+MISSING_CASKS=()
+for cask in "${CASKS[@]}"; do
+    brew list --cask "$cask" &> /dev/null || MISSING_CASKS+=("$cask")
+done
+if [[ ${#MISSING_CASKS[@]} -gt 0 ]]; then
+    for cask in "${MISSING_CASKS[@]}"; do
+        brew install --cask --adopt "$cask" || echo "Skipping $cask; install failed"
+    done
+fi
 
 # WebStorm default layout
 if [[ -f "/Applications/WebStorm.app/Contents/Resources/product-info.json" ]]; then
@@ -447,9 +471,9 @@ git config --global commit.gpgsign true
 if command -v dockutil >/dev/null 2>&1; then
     DOCK_APPS=("Spotify" "WebStorm" "Google Chrome" "Ghostty")
 
-    dockutil --remove all --no-restart
+    dockutil --remove all --no-restart > /dev/null
     for app in "${DOCK_APPS[@]}"; do
-        dockutil --add "/Applications/${app}.app" --no-restart
+        dockutil --add "/Applications/${app}.app" --no-restart > /dev/null
     done
     killall Dock
 else
@@ -457,19 +481,21 @@ else
 fi
 
 # Install Mac App Store apps
-[[ ${#MAS_APPS[@]} -gt 0 ]] && mas install "${MAS_APPS[@]}"
+if [[ ${#MAS_APPS[@]} -gt 0 ]]; then
+    for app in "${MAS_APPS[@]}"; do
+        output=$(mas install "$app" 2>&1) || { echo "$output"; echo "Skipping $app; install failed"; }
+    done
+fi
 
 # Postflight steps
 
 cat <<'EOF'
-apex init finished.
+System setup complete!
 
-manual steps:
-
+Next steps:
 - Sign in to GitHub: `gh auth login`
 - Sign in to Cloudflare: `wrangler login`
 - Set user.name and user.email in .gitconfig
 - Generate or import a GPG key for commit signing, then set it with `git config --global user.signingkey <KEYID>` (push() always signs commits with -S)
 - If any `mas` installs failed, sign into App Store and rerun apex (Apple removed `mas signin` in macOS 10.13+)
-
 EOF
